@@ -22,6 +22,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="~/Areas/Admin/dist/css/adminlte.min.css">
     <!-- summernote -->
     <link rel="stylesheet" href="~/Areas/Admin/plugins/summernote/summernote-bs4.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="~/Areas/Admin/plugins/toastr/toastr.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -180,7 +182,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
                         <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
                         <li class="nav-item has-treeview menu-open">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -261,11 +263,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                                 <li class="breadcrumb-item">
                                     <a href="@Url.Action("Index", Html.ControllerName())">
-                                        @Html.ControllerName()
+                                        @Html.BreadcrumbControllerName()
                                     </a>
                                 </li>
                                 <li class="breadcrumb-item active">
-                                    @Html.ActionName()
+                                    @Html.BreadcrumbActionName()
                                 </li>
                             </ol>
                         </div><!-- /.col -->
@@ -316,6 +318,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Summernote -->
     <script src="~/Areas/Admin/plugins/summernote/summernote-bs4.min.js"></script>
     <script src="~/Areas/Admin/plugins/summernote/lang/summernote-tr-TR.js"></script>
+    <!-- Toastr -->
+    <script src="~/Areas/Admin/plugins/toastr/toastr.min.js"></script>
     @RenderSection("scripts", false)
 </body>
 </html>
