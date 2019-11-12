@@ -61,5 +61,17 @@ namespace BlogFall.Controllers
         {
             return PartialView("_CategoriesPartial", db.Categories.ToList());
         }
+
+        public ActionResult ShowPost(int id)
+        {
+            Post post = db.Posts.Find(id);
+
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(post);
+        }
     }
 }
