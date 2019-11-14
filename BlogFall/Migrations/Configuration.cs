@@ -18,7 +18,6 @@ namespace BlogFall.Migrations
 
         protected override void Seed(BlogFall.Models.ApplicationDbContext context)
         {
-
             #region Admin Rolünü ve Kullanýcýsýný Oluþtur
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {

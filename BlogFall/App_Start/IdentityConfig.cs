@@ -105,5 +105,18 @@ namespace BlogFall
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
+
+        // https://stackoverflow.com/questions/22652118/disable-user-in-aspnet-identity-2-0
+        public override Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
+        {
+            var user = UserManager.FindByName(userName);
+
+            if (user != null && !user.IsEnabled)
+            {
+                return Task.FromResult(SignInStatus.LockedOut);
+            }
+
+            return base.PasswordSignInAsync(userName, password, isPersistent, shouldLockout);
+        }
     }
 }
