@@ -1,5 +1,7 @@
 ﻿using BlogFall.Areas.Admin.Controllers;
 using BlogFall.Attributes;
+using BlogFall.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,17 +49,20 @@ namespace BlogFall.Helpers
 
             MethodInfo mi = t.GetMethods().FirstOrDefault(x => x.Name == action);
 
-            BreadcrumbAttribute ba = mi.GetCustomAttribute(typeof(BreadcrumbAttribute)) 
+            BreadcrumbAttribute ba = mi.GetCustomAttribute(typeof(BreadcrumbAttribute))
                 as BreadcrumbAttribute;
 
             if (ba == null)
                 return action;
-            
+
             return ba.Name;
         }
 
         public static IHtmlString ShowPostIntro(this HtmlHelper htmlHelper, string content)
         {
+            if (string.IsNullOrEmpty(content))
+                return htmlHelper.Raw("");
+
             int pos = content.IndexOf("<hr>");
 
             if (pos == -1)
@@ -72,6 +77,9 @@ namespace BlogFall.Helpers
 
         public static IHtmlString ShowPost(this HtmlHelper htmlHelper, string content)
         {
+            if (string.IsNullOrEmpty(content))
+                return htmlHelper.Raw("");
+
             int pos = content.IndexOf("<hr>");
 
             if (pos == -1)
@@ -80,6 +88,30 @@ namespace BlogFall.Helpers
             }
 
             return htmlHelper.Raw(content.Remove(pos, 4));
+        }
+
+        public static string ProfilePhotoPath(this HtmlHelper htmlHelper)
+        {
+            var userId = htmlHelper.ViewContext.HttpContext.User.Identity.GetUserId();
+
+            var urlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext, htmlHelper.RouteCollection);
+
+            // giriş yapan kullanıcı varsa
+            if (userId != null)
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    var user = db.Users.Find(userId);
+
+                    // fotoğrafı varsa
+                    if (user != null && !string.IsNullOrEmpty(user.Photo))
+                    {
+                        return urlHelper.Content("~/Upload/Profiles/" + user.Photo);
+                    }
+                }
+            }
+
+            return urlHelper.Content("~/Images/avatar.jpg");
         }
     }
 }
