@@ -51,6 +51,14 @@ namespace BlogFall.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+            // Her yorumun zorunlu olarak bir yazısı vardır ve 
+            // o yazının da yorumları vardır
+            // yazı silindiğinde yorumlarını da otomatik sil
+            modelBuilder.Entity<Comment>()
+                .HasRequired(x => x.Post)
+                .WithMany(x => x.Comments)
+                .WillCascadeOnDelete();
         }
 
         public DbSet<Category> Categories { get; set; }
